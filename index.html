@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dawat-e-Islami India — Warangal Ijtima Special Bus Service</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #f3f6f4;
+      color: #111827;
+    }
+    .font-display {
+      font-family: 'Cinzel', serif;
+    }
+    .emerald-grad {
+      background: linear-gradient(145deg, #043927 0%, #07593d 55%, #032b1d 100%);
+    }
+    .gold-grad {
+      background: linear-gradient(135deg, #f3d778 0%, #d4af37 50%, #aa8018 100%);
+    }
+    .gold-border {
+      border-color: #d4af37;
+    }
+    .tab-active {
+      background-color: #043927;
+      color: #ffffff;
+      border-color: #d4af37;
+    }
+    .tab-inactive {
+      background-color: #ffffff;
+      color: #043927;
+      border-color: #d1d5db;
+    }
+  </style>
+</head>
+<body class="min-h-screen pb-14">
+
+  <!-- TOP STICKY BAR -->
+  <div class="sticky top-0 z-40 bg-[#032b1d] text-white border-b border-[#d4af37]/40 px-3 py-2.5 shadow-md">
+    <div class="max-w-2xl mx-auto flex items-center justify-between gap-2">
+      <div class="flex items-center gap-2">
+        <span class="w-2.5 h-2.5 rounded-full bg-[#f3d778] animate-pulse"></span>
+        <span class="text-xs font-bold tracking-wide text-[#f3d778]">DAWAT-E-ISLAMI INDIA</span>
+      </div>
+      <div class="flex items-center gap-1.5">
+        <button type="button" onclick="toggleLang()" id="langBtn" class="px-2.5 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-xs font-bold border border-white/20 transition">
+          Hinglish / EN
+        </button>
+        <button type="button" onclick="sharePortalWhatsApp()" class="px-2.5 py-1 rounded-lg bg-[#25D366] hover:bg-[#1ebe5d] text-white text-xs font-bold shadow transition">
+          Share Form
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <main class="max-w-2xl mx-auto px-3 pt-3 space-y-4">
+
+    <!-- POSTER BANNER CARD -->
+    <div class="rounded-2xl overflow-hidden shadow-xl border-2 border-[#d4af37] bg-[#043927]">
+      <div id="posterWrapper" class="relative w-full bg-[#043927]">
+        <img id="posterImg" src="" alt="Warangal Ijtima Poster" class="hidden w-full max-h-[420px] object-contain mx-auto bg-[#032b1d]" />
+        <!-- Fallback Stylish Islamic Header when no custom poster image is uploaded -->
+        <div id="defaultHeaderBanner" class="emerald-grad text-center px-4 py-6 text-white relative">
+          <p class="text-lg sm:text-xl text-[#f3d778] font-semibold mb-1" dir="rtl">بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ</p>
+          <p class="text-sm sm:text-base text-amber-200/90 mb-3" dir="rtl">اَللّٰهُمَّ صَلِّ عَلٰى سَيِّدِنَا مُحَمَّدٍ وَّعَلٰى اٰلِ سَيِّدِنَا مُحَمَّدٍ وَّبَارِكْ وَسَلِّمْ</p>
+          <div class="inline-block px-3 py-1 rounded-full bg-white text-[#043927] font-extrabold text-xs tracking-wider mb-2">
+            DAWAT-E-ISLAMI INDIA
+          </div>
+          <h1 id="hdrTitle" class="font-display text-2xl sm:text-3xl font-extrabold text-[#f3d778] leading-tight">
+            1 DAY SUNNAH-INSPIRING IJTIMA
+          </h1>
+          <p id="hdrVenue" class="text-sm sm:text-base font-bold text-white mt-1">WARANGAL (T.G.) — EIDGAH, MATWADA</p>
+          <div class="mt-3 inline-flex flex-wrap items-center justify-center gap-2 bg-black/30 border border-[#d4af37]/50 rounded-xl px-3 py-1.5 text-xs">
+            <span id="hdrDate" class="font-bold text-[#f3d778]">📅 29 NOV. 2026 (SUNDAY)</span>
+            <span>|</span>
+            <span id="hdrFare" class="font-bold text-white">🎫 FARE: ₹500/- PER PERSON</span>
+            <span>|</span>
+            <span id="hdrReturn" class="font-bold text-emerald-200">🚌 RETURN: AFTER ISHA</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAIN NAVIGATION TABS -->
+    <div class="grid grid-cols-3 gap-2">
+      <button type="button" id="tabBtn1" onclick="switchTab(1)" class="tab-active border-2 rounded-xl py-2.5 px-2 text-xs sm:text-sm font-extrabold shadow-sm transition text-center">
+        1. Seat Registration
+      </button>
+      <button type="button" id="tabBtn2" onclick="switchTab(2)" class="tab-inactive border-2 rounded-xl py-2.5 px-2 text-xs sm:text-sm font-extrabold shadow-sm transition text-center">
+        2. Point Lists (<span id="totalBadge">0</span>)
+      </button>
+      <button type="button" id="tabBtn3" onclick="switchTab(3)" class="tab-inactive border-2 rounded-xl py-2.5 px-2 text-xs sm:text-sm font-extrabold shadow-sm transition text-center">
+        3. Zimmedar / Admin
+      </button>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- TAB 1: PASSENGER SEAT REGISTRATION                        -->
+    <!-- ========================================================= -->
+    <section id="tab1" class="space-y-4">
+
+      <!-- Point Selection + Live QR & Zimmedar Card -->
+      <div class="bg-white rounded-2xl shadow-md border border-gray-200 p-4 sm:p-5 space-y-4">
+        <div class="flex items-center justify-between border-b pb-2.5">
+          <div>
+            <h2 id="formHeading" class="text-lg font-extrabold text-[#043927]">Book Your Bus Seat</h2>
+            <p id="formSub" class="text-xs text-gray-500">Select your pickup point to view Zimmedar & Payment QR</p>
+          </div>
+          <span class="px-2.5 py-1 rounded-lg bg-emerald-50 text-[#043927] font-extrabold text-xs border border-emerald-200">
+            ₹<span id="perSeatLabel">500</span> / Seat
+          </span>
+        </div>
+
+        <form id="bookingForm" onsubmit="handleBookingSubmit(event)" class="space-y-4">
+          <!-- Pickup Point Dropdown -->
+          <div>
+            <label id="lblPoint" class="block text-xs font-extrabold uppercase tracking-wider text-gray-700 mb-1">
+              1. Select Pickup Point *
+            </label>
+            <select id="pickupSelect" onchange="onPointChange()" required class="w-full rounded-xl border-2 border-[#043927]/30 focus:border-[#043927] bg-emerald-50/40 px-3.5 py-3 text-sm font-bold text-[#043927] outline-none">
+            </select>
+          </div>
+
+          <!-- Selected Point Zimmedar & QR Box -->
+          <div id="pointInfoCard" class="rounded-xl border-2 border-[#d4af37] bg-gradient-to-br from-amber-50/70 to-emerald-50/60 p-3.5 space-y-3">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-amber-200/80 pb-2.5">
+              <div>
+                <span class="text-[11px] font-bold uppercase text-amber-800">Departure Timing</span>
+                <p id="dispDeparture" class="text-sm font-extrabold text-[#043927]">After Fajr Prayer (5:45 AM)</p>
+              </div>
+              <div class="sm:text-right">
+                <span class="text-[11px] font-bold uppercase text-amber-800">Point Zimmedar</span>
+                <p id="dispZimmedar" class="text-sm font-extrabold text-gray-900">Zimmedar — 9353490973</p>
+              </div>
+            </div>
+
+            <!-- Point QR Code Display -->
+            <div class="flex flex-col sm:flex-row items-center gap-3 bg-white rounded-xl p-3 border border-amber-200">
+              <div class="w-28 h-28 rounded-lg border-2 border-dashed border-[#043927]/40 flex items-center justify-center overflow-hidden bg-gray-50 shrink-0">
+                <img id="dispQrImg" src="" alt="Point Payment QR" class="hidden w-full h-full object-contain" />
+                <div id="dispQrPlaceholder" class="text-center p-2">
+                  <span class="text-2xl block">📲</span>
+                  <span class="text-[10px] font-bold text-gray-500 leading-tight block">Pay Zimmedar via UPI / Cash</span>
+                </div>
+              </div>
+              <div class="text-center sm:text-left space-y-1 flex-1">
+                <span class="inline-block px-2 py-0.5 rounded bg-emerald-100 text-[#043927] text-[11px] font-extrabold">
+                  POINT PAYMENT DETAILS
+                </span>
+                <p class="text-xs font-bold text-gray-700">UPI ID: <span id="dispUpi" class="text-[#043927] select-all">Not set (Pay Zimmedar)</span></p>
+                <p class="text-[11px] text-gray-500">Scan QR or pay directly to <strong id="dispZimNameInline">Zimmedar</strong>, then submit your details below.</p>
+                <a id="callZimBtn" href="tel:9353490973" class="inline-block mt-1 text-xs font-bold text-emerald-700 underline">
+                  📞 Call Point Zimmedar
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Passenger Name -->
+          <div>
+            <label id="lblName" class="block text-xs font-extrabold uppercase tracking-wider text-gray-700 mb-1">
+              2. Passenger Full Name *
+            </label>
+            <input type="text" id="custName" required placeholder="Enter full name" class="w-full rounded-xl border border-gray-300 focus:border-[#043927] px-3.5 py-2.5 text-sm font-medium outline-none" />
+          </div>
+
+          <!-- Mobile Number -->
+          <div>
+            <label id="lblPhone" class="block text-xs font-extrabold uppercase tracking-wider text-gray-700 mb-1">
+              3. WhatsApp / Mobile Number *
+            </label>
+            <input type="tel" id="custPhone" required pattern="[0-9]{10}" maxlength="10" placeholder="10-digit mobile number" class="w-full rounded-xl border border-gray-300 focus:border-[#043927] px-3.5 py-2.5 text-sm font-medium outline-none" />
+          </div>
+
+          <!-- Number of Seats & Auto Fare -->
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label id="lblSeats" class="block text-xs font-extrabold uppercase tracking-wider text-gray-700 mb-1">
+                4. Number of Seats *
+              </label>
+              <div class="flex items-center border border-gray-300 rounded-xl overflow-hidden bg-white">
+                <button type="button" onclick="adjustSeats(-1)" class="w-10 h-10 bg-gray-100 hover:bg-gray-200 font-extrabold text-lg text-[#043927]">-</button>
+                <input type="number" id="custSeats" value="1" min="1" max="20" readonly class="w-full text-center font-extrabold text-base text-gray-900 outline-none" />
+                <button type="button" onclick="adjustSeats(1)" class="w-10 h-10 bg-gray-100 hover:bg-gray-200 font-extrabold text-lg text-[#043927]">+</button>
+              </div>
+            </div>
+            <div>
+              <label class="block text-xs font-extrabold uppercase tracking-wider text-gray-700 mb-1">
+                Total Fare
+              </label>
+              <div class="h-10 rounded-xl bg-[#043927] text-[#f3d778] flex items-center justify-center font-extrabold text-lg border border-[#d4af37]">
+                ₹<span id="totalFareDisp">500</span>/-
+              </div>
+            </div>
+          </div>
+
+          <!-- Payment Status -->
+          <div>
+            <label id="lblPayStatus" class="block text-xs font-extrabold uppercase tracking-wider text-gray-700 mb-1">
+              5. Payment Status *
+            </label>
+            <select id="payStatus" class="w-full rounded-xl border border-gray-300 focus:border-[#043927] px-3.5 py-2.5 text-sm font-semibold outline-none bg-white">
+              <option value="Paid via Point QR / UPI">Paid via Point QR / UPI</option>
+              <option value="Cash Given to Zimmedar">Cash Given to Zimmedar</option>
+              <option value="Pending (Will Pay Zimmedar)">Pending (Will Pay Zimmedar)</option>
+            </select>
+          </div>
+
+          <!-- Optional Note / UTR -->
+          <div>
+            <label class="block text-xs font-bold text-gray-600 mb-1">
+              6. UPI Ref / Landmark (Optional)
+            </label>
+            <input type="text" id="custNote" placeholder="e.g. UPI Ref 4129xxxx or Near Masjid" class="w-full rounded-xl border border-gray-300 focus:border-[#043927] px-3.5 py-2 text-sm outline-none" />
+          </div>
+
+          <button type="submit" id="submitBtn" class="w-full py-3.5 rounded-xl gold-grad text-[#032b1d] font-extrabold text-base shadow-lg hover:brightness-105 active:scale-[0.99] transition">
+            ✅ Confirm Seat & Generate Pass
+          </button>
+        </form>
+      </div>
+
+      <!-- GENERATED DIGITAL BUS PASS CARD (SHOWN AFTER SUBMIT OR LOOKUP) -->
+      <div id="passSection" class="hidden bg-white rounded-2xl shadow-xl border-2 border-[#043927] overflow-hidden">
+        <div class="emerald-grad px-4 py-3 text-white flex items-center justify-between">
+          <div>
+            <span class="text-[10px] uppercase tracking-widest text-[#f3d778] font-bold block">Confirmed Bus Pass</span>
+            <h3 id="passIdDisp" class="text-lg font-extrabold tracking-wide">DI-WGL-1001</h3>
+          </div>
+          <span class="px-2.5 py-1 rounded-full bg-[#f3d778] text-[#032b1d] text-xs font-extrabold">VERIFIED</span>
+        </div>
+        <div class="p-4 space-y-3 text-sm">
+          <div class="grid grid-cols-2 gap-2 bg-gray-50 p-3 rounded-xl border">
+            <div>
+              <span class="text-[11px] text-gray-500 block">Passenger</span>
+              <strong id="pName" class="text-gray-900">-</strong>
+            </div>
+            <div>
+              <span class="text-[11px] text-gray-500 block">Mobile</span>
+              <strong id="pPhone" class="text-gray-900">-</strong>
+            </div>
+            <div>
+              <span class="text-[11px] text-gray-500 block">Pickup Point</span>
+              <strong id="pPoint" class="text-[#043927]">-</strong>
+            </div>
+            <div>
+              <span class="text-[11px] text-gray-500 block">Departure</span>
+              <strong id="pDep" class="text-gray-900">-</strong>
+            </div>
+            <div>
+              <span class="text-[11px] text-gray-500 block">Seats & Total Fare</span>
+              <strong id="pSeatsFare" class="text-[#043927]">-</strong>
+            </div>
+            <div>
+              <span class="text-[11px] text-gray-500 block">Payment Status</span>
+              <strong id="pStatus" class="text-amber-700">-</strong>
+            </div>
+          </div>
+
+          <div class="space-y-2 pt-1">
+            <button type="button" onclick="sendPassToZimmedarWA()" class="w-full py-3 rounded-xl bg-[#25D366] hover:bg-[#1ebe5d] text-white font-extrabold text-sm shadow flex items-center justify-center gap-2">
+              <span>📲 Send Pass to Point Zimmedar (WhatsApp)</span>
+            </button>
+            <button type="button" onclick="shareCurrentPointListWA()" class="w-full py-2.5 rounded-xl bg-[#043927] hover:bg-[#064e36] text-[#f3d778] font-bold text-xs shadow">
+              📋 Share Updated Point Members List on WhatsApp
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- SAVED PASS QUICK VIEWER -->
+      <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-4 flex items-center justify-between gap-2">
+        <div>
+          <p class="text-xs font-extrabold text-gray-800">Already Registered on This Phone?</p>
+          <p class="text-[11px] text-gray-500">View your last generated Digital Bus Pass anytime</p>
+        </div>
+        <button type="button" onclick="viewLastSavedPass()" class="px-3 py-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-[#043927] font-extrabold text-xs border border-emerald-200 shrink-0">
+          View Saved Pass
+        </button>
+      </div>
+
+    </section>
+
+    <!-- ========================================================= -->
+    <!-- TAB 2: POINT-WISE MEMBERS LIST & WHATSAPP GROUP SHARE     -->
+    <!-- ========================================================= -->
+    <section id="tab2" class="hidden space-y-4">
+      <div class="bg-white rounded-2xl shadow-md border border-gray-200 p-4 space-y-3">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b pb-3">
+          <div>
+            <h2 class="text-lg font-extrabold text-[#043927]">Point-Wise Members List</h2>
+            <p class="text-xs text-gray-500">Filter by pickup point & share live list to WhatsApp</p>
+          </div>
+          <button type="button" onclick="exportCSV()" class="px-3 py-2 rounded-xl bg-gray-900 text-white text-xs font-bold hover:bg-gray-800">
+            ⬇ Download Excel (CSV)
+          </button>
+        </div>
+
+        <!-- Point Filter -->
+        <div>
+          <label class="block text-xs font-bold text-gray-600 mb-1">Select Pickup Point to View / Share List:</label>
+          <select id="listFilterSelect" onchange="renderMembersList()" class="w-full rounded-xl border-2 border-[#043927]/30 px-3 py-2.5 text-sm font-bold text-[#043927] bg-emerald-50/30 outline-none">
+          </select>
+        </div>
+
+        <!-- Summary Strip -->
+        <div id="listSummaryBox" class="grid grid-cols-3 gap-2 bg-emerald-50 border border-emerald-200 rounded-xl p-3 text-center">
+          <div>
+            <span class="text-[11px] text-gray-600 block">Entries</span>
+            <strong id="sumEntries" class="text-base font-extrabold text-[#043927]">0</strong>
+          </div>
+          <div>
+            <span class="text-[11px] text-gray-600 block">Total Seats</span>
+            <strong id="sumSeats" class="text-base font-extrabold text-[#043927]">0</strong>
+          </div>
+          <div>
+            <span class="text-[11px] text-gray-600 block">Total Amount</span>
+            <strong id="sumAmount" class="text-base font-extrabold text-[#043927]">₹0</strong>
+          </div>
+        </div>
+
+        <!-- One-Tap Share List to WhatsApp -->
+        <button type="button" onclick="shareFilteredListWhatsApp()" class="w-full py-3 rounded-xl bg-[#25D366] hover:bg-[#1ebe5d] text-white font-extrabold text-sm shadow-md">
+          📲 Share This Point List on WhatsApp
+        </button>
+
+        <!-- Members Cards -->
+        <div id="membersContainer" class="space-y-2.5 pt-1"></div>
+      </div>
+    </section>
+
+    <!-- ========================================================= -->
+    <!-- TAB 3: SUPER ADMIN & POINT ZIMMEDAR SELF-SERVICE PANEL    -->
+    <!-- ========================================================= -->
+    <section id="tab3" class="hidden space-y-4">
+
+      <!-- Login Box -->
+      <div id="adminLoginBox" class="bg-white rounded-2xl shadow-md border border-gray-200 p-5 space-y-4">
+        <div>
+          <h2 class="text-lg font-extrabold text-[#043927]">Admin & Point Zimmedar Login</h2>
+          <p class="text-xs text-gray-500 mt-0.5">
+            Enter <strong>Super Admin PIN (7860)</strong> to edit portal & all points, or enter your <strong>Point Zimmedar PIN</strong> (1111 / 2222 / 3333 / 4444) to manage your point.
+          </p>
+        </div>
+        <div class="flex gap-2">
+          <input type="password" id="adminPinInput" placeholder="Enter PIN (e.g. 7860 or 1111)" class="flex-1 rounded-xl border-2 border-gray-300 focus:border-[#043927] px-3.5 py-2.5 text-sm font-bold outline-none" />
+          <button type="button" onclick="handleAdminLogin()" class="px-5 py-2.5 rounded-xl bg-[#043927] text-[#f3d778] font-extrabold text-sm">
+            Unlock
+          </button>
+        </div>
+      </div>
+
+      <!-- Unlocked Admin Dashboard -->
+      <div id="adminDashboard" class="hidden space-y-4">
+        <div class="bg-[#043927] text-white rounded-2xl p-4 flex items-center justify-between">
+          <div>
+            <span id="adminRoleBadge" class="text-[11px] font-extrabold uppercase tracking-wider text-[#f3d778]">SUPER ADMIN MODE</span>
+            <h3 id="adminRoleTitle" class="text-base font-bold">Full Portal & All Pickup Points</h3>
+          </div>
+          <button type="button" onclick="logoutAdmin()" class="px-3 py-1.5 rounded-lg bg-white/15 text-xs font-bold hover:bg-white/25">
+            Lock / Logout
+          </button>
+        </div>
+
+        <!-- SUPER ADMIN ONLY: EDIT PORTAL EVENT DETAILS -->
+        <div id="superPortalEditor" class="bg-white rounded-2xl shadow-md border border-gray-200 p-4 space-y-3">
+          <h3 class="text-sm font-extrabold text-[#043927] border-b pb-2">Edit Portal Event & Fare Details</h3>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+            <div>
+              <label class="font-bold text-gray-700 block mb-1">Event Title</label>
+              <input type="text" id="editTitle" class="w-full rounded-lg border p-2 font-semibold" />
+            </div>
+            <div>
+              <label class="font-bold text-gray-700 block mb-1">Event Date</label>
+              <input type="text" id="editDate" class="w-full rounded-lg border p-2 font-semibold" />
+            </div>
+            <div>
+              <label class="font-bold text-gray-700 block mb-1">Venue</label>
+              <input type="text" id="editVenue" class="w-full rounded-lg border p-2 font-semibold" />
+            </div>
+            <div>
+              <label class="font-bold text-gray-700 block mb-1">Return Timing</label>
+              <input type="text" id="editReturn" class="w-full rounded-lg border p-2 font-semibold" />
+            </div>
+            <div>
+              <label class="font-bold text-gray-700 block mb-1">Fare Per Seat (₹)</label>
+              <input type="number" id="editFare" class="w-full rounded-lg border p-2 font-semibold" />
+            </div>
+            <div>
+              <label class="font-bold text-gray-700 block mb-1">Central Helpline Numbers</label>
+              <input type="text" id="editHelpline" class="w-full rounded-lg border p-2 font-semibold" />
+            </div>
+          </div>
+
+          <!-- Upload Custom Poster Image -->
+          <div class="pt-1">
+            <label class="font-bold text-gray-700 text-xs block mb-1">Upload Custom Top Poster Image (Optional)</label>
+            <div class="flex items-center gap-2">
+              <input type="file" accept="image/*" onchange="uploadPosterImage(event)" class="text-xs" />
+              <button type="button" onclick="clearPosterImage()" class="text-xs text-red-600 font-bold underline">Reset Default</button>
+            </div>
+          </div>
+
+          <button type="button" onclick="savePortalSettings()" class="w-full py-2.5 rounded-xl bg-[#043927] text-white font-extrabold text-xs">
+            💾 Save Portal Details
+          </button>
+        </div>
+
+        <!-- PICKUP POINTS & ZIMMEDAR QR MANAGEMENT -->
+        <div class="bg-white rounded-2xl shadow-md border border-gray-200 p-4 space-y-3">
+          <div class="flex items-center justify-between border-b pb-2">
+            <h3 class="text-sm font-extrabold text-[#043927]">Pickup Points, Zimmedars & QR Codes</h3>
+            <button type="button" id="addPointBtn" onclick="addNewPickupPoint()" class="px-2.5 py-1 rounded-lg bg-emerald-100 text-[#043927] text-xs font-extrabold">
+              + Add Point
+            </button>
+          </div>
+          <div id="adminPointsList" class="space-y-4"></div>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer class="max-w-2xl mx-auto px-4 pt-6 text-center text-xs text-gray-500 space-y-1">
+    <p class="font-bold text-[#043927]">Travel with us to gain Sacred Islamic Knowledge!</p>
+    <p>Central Helpline: <span id="footerHelpline" class="font-bold text-gray-700">93534 90973 | 73069 59132</span></p>
+  </footer>
+
+  <script>
+    // =========================================================
+    // DEFAULT CONFIGURATION & STATE
+    // =========================================================
+    const DEFAULT_SETTINGS = {
+      title: "1 DAY SUNNAH-INSPIRING IJTIMA",
+      venue: "WARANGAL (T.G.) — EIDGAH, MATWADA",
+      date: "29 NOV. 2026 (SUNDAY)",
+      returnTime: "AFTER ISHA",
+      fare: 500,
+      helpline: "93534 90973 | 73069 59132",
+      posterDataUrl: ""
+    };
+
+    const DEFAULT_POINTS = [
+      {
+        id: "mehdipatnam",
+        name: "Mehdipatnam",
+        departure: "After Fajr Prayer (5:45 AM)",
+        zimmedarName: "Mehdipatnam Zimmedar",
+        zimmedarPhone: "9353490973",
+        upiId: "",
+        qrDataUrl: "",
+        pin: "1111"
+      },
+      {
+        id: "yakhutpura",
+        name: "Yakhutpura",
+        departure: "After Fajr Prayer (5:30 AM)",
+        zimmedarName: "Yakhutpura Zimmedar",
+        zimmedarPhone: "7306959132",
+        upiId: "",
+        qrDataUrl: "",
+        pin: "2222"
+      },
+      {
+        id: "chandrayangutta",
+        name: "Chandrayan Gutta",
+        departure: "After Fajr Prayer (5:20 AM)",
+        zimmedarName: "Chandrayan Gutta Zimmedar",
+        zimmedarPhone: "9353490973",
+        upiId: "",
+        qrDataUrl: "",
+        pin: "3333"
+      },
+      {
+        id: "hassannagar",
+        name: "Faizane Madina Hassan Nagar",
+        departure: "After Fajr Prayer (5:15 AM)",
+        zimmedarName: "Hassan Nagar Zimmedar",
+        zimmedarPhone: "7306959132",
+        upiId: "",
+        qrDataUrl: "",
+        pin: "4444"
+      }
+    ];
+
+    let lang = "en";
+    let settings = JSON.parse(localStorage.getItem("di_wgl_settings")) || DEFAULT_SETTINGS;
+    let points = JSON.parse(localStorage.getItem("di_wgl_points")) || DEFAULT_POINTS;
+    let bookings = JSON.parse(localStorage.getItem("di_wgl_bookings")) || [];
+    let activePass = JSON.parse(localStorage.getItem("di_wgl_last_pass")) || null;
+    let adminAuth = null; // { role: 'super' } or { role: 'point', pointId: '...' }
+
+    function saveAll() {
+      localStorage.setItem("di_wgl_settings", JSON.stringify(settings));
+      localStorage.setItem("di_wgl_points", JSON.stringify(points));
+      localStorage.setItem("di_wgl_bookings", JSON.stringify(bookings));
+    }
+
+    // =========================================================
+    // CLOUD BACKEND (Supabase) - central booking database
+    // anon key is public by design; STAFF_TOKEN guards admin writes
+    // =========================================================
+    const SUPABASE_URL = "https://milcfwkxpxuufiouldfu.supabase.co";
+    const SUPABASE_ANON_KEY = "__SUPA...EY__";
+    const STAFF_TOKEN = "36a88ee0d6b94e4b8f46a8144b17547ef2a33e6a01f244faadf175ebdd427c58";
+
+    function staffHeaders() {
+      return { "x-staff-token": STAFF_TOKEN, "Prefer": "return=representation" };
+    }
+    function upsertHeaders() {
+      return { "x-staff-token": STAFF_TOKEN, "Prefer": "return=minimal,resolution=merge-duplicates" };
+    }
+
+    async function sbFetch(path, opts = {}) {
+      const res = await fetch(SUPABASE_URL + path, {
+        method: opts.method || "GET",
+        headers: Object.assign({
+          "apikey": SUPABASE_ANON_KEY,
+          "Authorization": "Bearer " + SUPABASE_ANON_KEY,
+          "Content-Type": "application/json"
+        }, opts.headers || {})
+      });
+      if (!res.ok) {
+        let detail = "";
+        try { detail = (await res.text()).slice(0, 140); } catch (e) {}
+        throw new Error("Cloud error " + res.status + " " + detail);
+      }
+      if (res.status === 204) return null;
+      const text = await res.text();
+      return text ? JSON.parse(text) : null;
+    }
+
+    function toBookingRow(b) {
+      return {
+        pass_id: b.id, point_id: b.pointId, point_name: b.pointName,
+        departure: b.departure, zimmedar_name: b.zimmedarName, zimmedar_phone: b.zimmedarPhone,
+        passenger_name: b.name, phone: b.phone, seats: b.seats,
+        total_fare: b.totalFare, status: b.status, note: b.note || ""
+      };
+    }
+    function fromBookingRow(r) {
+      return {
+        id: r.pass_id, _sid: r.id, pointId: r.point_id, pointName: r.point_name,
+        departure: r.departure, zimmedarName: r.zimmedar_name, zimmedarPhone: r.zimmedar_phone,
+        name: r.passenger_name, phone: r.phone, seats: r.seats,
+        totalFare: r.total_fare, status: r.status, note: r.note,
+        createdAt: new Date(r.created_at).toLocaleString()
+      };
+    }
+    function toPointRow(p) {
+      return {
+        id: p.id, name: p.name, departure: p.departure,
+        zimmedar_name: p.zimmedarName, zimmedar_phone: p.zimmedarPhone,
+        upi_id: p.upiId || "", qr_data_url: p.qrDataUrl || "", pin: p.pin
+      };
+    }
+    function fromPointRow(r) {
+      return {
+        id: r.id, name: r.name, departure: r.departure,
+        zimmedarName: r.zimmedar_name, zimmedarPhone: r.zimmedar_phone,
+        upiId: r.upi_id, qrDataUrl: r.qr_data_url, pin: r.pin
+      };
+    }
+
+    async function pushSettings(silent) {
+      try {
+        await sbFetch("/rest/v1/settings", {
+          method: "POST",
+          headers: upsertHeaders(),
+          body: JSON.stringify({ key: "portal", value: JSON.stringify(settings) })
+        });
+      } catch (e) {
+        if (!silent) alert("Saved on this device, but cloud sync failed: " + e.message);
+      }
+    }
+
+    async function pushPoint(p, silent) {
+      if (!p) return;
+      try {
+        await sbFetch("/rest/v1/points", {
+          method: "POST",
+          headers: upsertHeaders(),
+          body: JSON.stringify(Object.assign(toPointRow(p), { sort_order: points.indexOf(p) + 1 }))
+        });
+      } catch (e) {
+        if (!silent) alert("Saved on this device, but cloud sync failed: " + e.message);
+      }
+    }
+
+    async function cloudSyncLoad() {
+      try {
+        const [sRows, pRows, bRows] = await Promise.all([
+          sbFetch("/rest/v1/settings?select=*"),
+          sbFetch("/rest/v1/points?select=*&order=sort_order.asc"),
+          sbFetch("/rest/v1/bookings?select=*&order=created_at.desc")
+        ]);
+        if (sRows && sRows.length) {
+          try { settings = JSON.parse(sRows[0].value) || settings; } catch (e) {}
+        }
+        if (pRows && pRows.length) points = pRows.map(fromPointRow);
+        if (bRows && bRows.length) bookings = bRows.map(fromBookingRow);
+        // One-time migration: push any locally-saved data into the cloud
+        if (!sRows || !sRows.length) await pushSettings(true);
+        if ((!pRows || !pRows.length) && points.length) await Promise.all(points.map(p => pushPoint(p, true)));
+        if ((!bRows || !bRows.length) && bookings.length) {
+          for (const b of bookings) {
+            await sbFetch("/rest/v1/bookings", { method: "POST", headers: staffHeaders(), body: JSON.stringify(toBookingRow(b)) }).catch(() => {});
+          }
+        }
+      } catch (e) {
+        console.warn("Cloud sync failed - using local cache.", e);
+      }
+    }
+
+
+    // =========================================================
+    // INITIALIZATION & URL PARAMS (?point=mehdipatnam&mode=admin)
+    // =========================================================
+    window.addEventListener("DOMContentLoaded", async () => {
+      await cloudSyncLoad();
+      applySettingsToUI();
+      populatePointDropdowns();
+      updateTotalBadge();
+      renderMembersList();
+
+      const params = new URLSearchParams(window.location.search);
+      const qPoint = params.get("point");
+      const qMode = params.get("mode");
+
+      if (qPoint && points.some(p => p.id === qPoint)) {
+        document.getElementById("pickupSelect").value = qPoint;
+        document.getElementById("listFilterSelect").value = qPoint;
+        onPointChange();
+        renderMembersList();
+      } else {
+        onPointChange();
+      }
+
+      if (qMode === "admin") {
+        switchTab(3);
+      }
+    });
+
+    function applySettingsToUI() {
+      document.getElementById("hdrTitle").textContent = settings.title;
+      document.getElementById("hdrVenue").textContent = settings.venue;
+      document.getElementById("hdrDate").textContent = "📅 " + settings.date;
+      document.getElementById("hdrFare").textContent = "🎫 FARE: ₹" + settings.fare + "/- PER PERSON";
+      document.getElementById("hdrReturn").textContent = "🚌 RETURN: " + settings.returnTime;
+      document.getElementById("perSeatLabel").textContent = settings.fare;
+      document.getElementById("footerHelpline").textContent = settings.helpline;
+
+      const posterImg = document.getElementById("posterImg");
+      const defaultBanner = document.getElementById("defaultHeaderBanner");
+      if (settings.posterDataUrl) {
+        posterImg.src = settings.posterDataUrl;
+        posterImg.classList.remove("hidden");
+        defaultBanner.classList.add("hidden");
+      } else {
+        posterImg.classList.add("hidden");
+        defaultBanner.classList.remove("hidden");
+      }
+      recalcFare();
+    }
+
+    function populatePointDropdowns() {
+      const sel = document.getElementById("pickupSelect");
+      const filter = document.getElementById("listFilterSelect");
+      const prevSel = sel.value;
+      const prevFilter = filter.value;
+
+      sel.innerHTML = "";
+      filter.innerHTML = `<option value="ALL">All Pickup Points (${bookings.length})</option>`;
+
+      points.forEach(p => {
+        const opt = document.createElement("option");
+        opt.value = p.id;
+        opt.textContent = `${p.name} — ${p.departure}`;
+        sel.appendChild(opt);
+
+        const count = bookings.filter(b => b.pointId === p.id).length;
+        const fOpt = document.createElement("option");
+        fOpt.value = p.id;
+        fOpt.textContent = `${p.name} (${count} Bookings)`;
+        filter.appendChild(fOpt);
+      });
+
+      if (prevSel && points.some(p => p.id === prevSel)) sel.value = prevSel;
+      if (prevFilter && (prevFilter === "ALL" || points.some(p => p.id === prevFilter))) filter.value = prevFilter;
+    }
+
+    function onPointChange() {
+      const pointId = document.getElementById("pickupSelect").value;
+      const p = points.find(x => x.id === pointId) || points[0];
+      if (!p) return;
+
+      document.getElementById("dispDeparture").textContent = p.departure;
+      document.getElementById("dispZimmedar").textContent = `${p.zimmedarName} — ${p.zimmedarPhone}`;
+      document.getElementById("dispZimNameInline").textContent = p.zimmedarName;
+      document.getElementById("dispUpi").textContent = p.upiId || "Not set (Pay Zimmedar directly)";
+      document.getElementById("callZimBtn").href = `tel:${p.zimmedarPhone}`;
+
+      const qrImg = document.getElementById("dispQrImg");
+      const qrPh = document.getElementById("dispQrPlaceholder");
+      if (p.qrDataUrl) {
+        qrImg.src = p.qrDataUrl;
+        qrImg.classList.remove("hidden");
+        qrPh.classList.add("hidden");
+      } else {
+        qrImg.classList.add("hidden");
+        qrPh.classList.remove("hidden");
+      }
+    }
+
+    function adjustSeats(delta) {
+      const inp = document.getElementById("custSeats");
+      let val = parseInt(inp.value || "1", 10) + delta;
+      if (val < 1) val = 1;
+      if (val > 20) val = 20;
+      inp.value = val;
+      recalcFare();
+    }
+
+    function recalcFare() {
+      const seats = parseInt(document.getElementById("custSeats").value || "1", 10);
+      document.getElementById("totalFareDisp").textContent = seats * Number(settings.fare || 500);
+    }
+
+    // =========================================================
+    // FORM SUBMIT & DIGITAL PASS GENERATION
+    // =========================================================
+    function handleBookingSubmit(e) {
+      e.preventDefault();
+      const pointId = document.getElementById("pickupSelect").value;
+      const p = points.find(x => x.id === pointId);
+      const name = document.getElementById("custName").value.trim();
+      const phone = document.getElementById("custPhone").value.trim();
+      const seats = parseInt(document.getElementById("custSeats").value, 10);
+      const status = document.getElementById("payStatus").value;
+      const note = document.getElementById("custNote").value.trim();
+
+      if (!p || !name || phone.length < 10) {
+        alert("Please enter valid Name and 10-digit Mobile Number.");
+        return;
+      }
+
+      const booking = {
+        id: "DI-WGL-" + Math.floor(1000 + Math.random() * 9000),
+        pointId: p.id,
+        pointName: p.name,
+        departure: p.departure,
+        zimmedarName: p.zimmedarName,
+        zimmedarPhone: p.zimmedarPhone,
+        name,
+        phone,
+        seats,
+        totalFare: seats * Number(settings.fare || 500),
+        status,
+        note,
+        createdAt: new Date().toLocaleString()
+      };
+
+      bookings.unshift(booking);
+      activePass = booking;
+      localStorage.setItem("di_wgl_last_pass", JSON.stringify(booking));
+      saveAll();
+
+      // Cloud save (central database)
+      sbFetch("/rest/v1/bookings", { method: "POST", headers: staffHeaders(), body: JSON.stringify(toBookingRow(booking)) })
+        .then(rows => { if (rows && rows.length) booking._sid = rows[0].id; })
+        .catch(err => alert("Pass is saved on this device, but cloud save failed: " + err.message + "\n\nPlease check internet and re-submit if needed."));
+
+      populatePointDropdowns();
+      updateTotalBadge();
+      renderMembersList();
+      showPassCard(booking);
+
+      document.getElementById("custName").value = "";
+      document.getElementById("custPhone").value = "";
+      document.getElementById("custSeats").value = "1";
+      document.getElementById("custNote").value = "";
+      recalcFare();
+    }
+
+    function showPassCard(b) {
+      document.getElementById("passIdDisp").textContent = b.id;
+      document.getElementById("pName").textContent = b.name;
+      document.getElementById("pPhone").textContent = b.phone;
+      document.getElementById("pPoint").textContent = b.pointName;
+      document.getElementById("pDep").textContent = b.departure;
+      document.getElementById("pSeatsFare").textContent = `${b.seats} Seat(s) — ₹${b.totalFare}/-`;
+      document.getElementById("pStatus").textContent = b.status;
+
+      const sec = document.getElementById("passSection");
+      sec.classList.remove("hidden");
+      sec.scrollIntoView({ behavior: "smooth" });
+    }
+
+    function viewLastSavedPass() {
+      if (!activePass) {
+        alert("No saved pass found on this device yet. Please fill the registration form first.");
+        return;
+      }
+      showPassCard(activePass);
+    }
+
+    // =========================================================
+    // WHATSAPP SHARING FUNCTIONS (100% RELIABLE)
+    // =========================================================
+    function openWhatsApp(phone, text) {
+      const encoded = encodeURIComponent(text);
+      const cleanPhone = (phone || "").replace(/\D/g, "");
+      const waPhone = cleanPhone.length === 10 ? "91" + cleanPhone : cleanPhone;
+      const url = waPhone
+        ? `https://api.whatsapp.com/send?phone=${waPhone}&text=${encoded}`
+        : `https://api.whatsapp.com/send?text=${encoded}`;
+      window.open(url, "_blank");
+    }
+
+    function sharePortalWhatsApp() {
+      const pageUrl = window.location.href.split("?")[0];
+      const msg =
+        `*${settings.title}*\n` +
+        `Dawat-e-Islami India — Special Bus Service\n\n` +
+        `📅 *Date:* ${settings.date}\n` +
+        `📍 *Venue:* ${settings.venue}\n` +
+        `🎫 *Fare:* ₹${settings.fare}/- per person\n` +
+        `🚌 *Return:* ${settings.returnTime}\n\n` +
+        `Apne area ka Pickup Point chunein aur online seat register karein:\n${pageUrl}`;
+      openWhatsApp("", msg);
+    }
+
+    function sendPassToZimmedarWA() {
+      if (!activePass) return;
+      const b = activePass;
+      const msg =
+        `*Assalamu Alaikum ${b.zimmedarName},*\n` +
+        `Meri Warangal Ijtima Bus Seat registration details:\n\n` +
+        `🎫 *Pass ID:* ${b.id}\n` +
+        `📍 *Pickup Point:* ${b.pointName}\n` +
+        `⏰ *Departure:* ${b.departure}\n` +
+        `👤 *Name:* ${b.name}\n` +
+        `📞 *Mobile:* ${b.phone}\n` +
+        `💺 *Seats:* ${b.seats} (Total: ₹${b.totalFare}/-)\n` +
+        `💳 *Payment:* ${b.status}` +
+        (b.note ? `\n📝 *Note:* ${b.note}` : "");
+      openWhatsApp(b.zimmedarPhone, msg);
+    }
+
+    function shareCurrentPointListWA() {
+      if (!activePass) return;
+      document.getElementById("listFilterSelect").value = activePass.pointId;
+      shareFilteredListWhatsApp();
+    }
+
+    function shareFilteredListWhatsApp() {
+      const filterId = document.getElementById("listFilterSelect").value;
+      const filtered = filterId === "ALL" ? bookings : bookings.filter(b => b.pointId === filterId);
+      const pointObj = points.find(p => p.id === filterId);
+
+      if (filtered.length === 0) {
+        alert("No members registered in this list yet.");
+        return;
+      }
+
+      const title = pointObj
+        ? `*${pointObj.name.toUpperCase()} — BUS MEMBERS LIST*`
+        : `*ALL PICKUP POINTS — BUS MEMBERS LIST*`;
+
+      let totalSeats = 0;
+      let totalAmt = 0;
+      const lines = filtered.map((b, idx) => {
+        totalSeats += b.seats;
+        totalAmt += b.totalFare;
+        return `${idx + 1}. *${b.name}* (${b.phone}) — ${b.seats} Seat [₹${b.totalFare}] (${b.status})`;
+      });
+
+      const headerInfo = pointObj
+        ? `👤 Zimmedar: ${pointObj.zimmedarName} (${pointObj.zimmedarPhone})\n⏰ Departure: ${pointObj.departure}\n`
+        : "";
+
+      const msg =
+        `${title}\n` +
+        `Warangal Ijtima (${settings.date})\n` +
+        `${headerInfo}\n` +
+        lines.join("\n") +
+        `\n\n*Total Entries:* ${filtered.length} | *Total Seats:* ${totalSeats} | *Total Fare:* ₹${totalAmt}/-`;
+
+      openWhatsApp("", msg);
+    }
+
+    // =========================================================
+    // TABS, LIST RENDERING & CSV EXPORT
+    // =========================================================
+    function switchTab(n) {
+      [1, 2, 3].forEach(i => {
+        document.getElementById("tab" + i).classList.toggle("hidden", i !== n);
+        const btn = document.getElementById("tabBtn" + i);
+        btn.className = (i === n ? "tab-active" : "tab-inactive") +
+          " border-2 rounded-xl py-2.5 px-2 text-xs sm:text-sm font-extrabold shadow-sm transition text-center";
+      });
+      if (n === 2) renderMembersList();
+    }
+
+    function updateTotalBadge() {
+      document.getElementById("totalBadge").textContent = bookings.length;
+    }
+
+    function renderMembersList() {
+      const filterId = document.getElementById("listFilterSelect").value || "ALL";
+      const filtered = filterId === "ALL" ? bookings : bookings.filter(b => b.pointId === filterId);
+
+      let seats = 0;
+      let amt = 0;
+      filtered.forEach(b => {
+        seats += b.seats;
+        amt += b.totalFare;
+      });
+
+      document.getElementById("sumEntries").textContent = filtered.length;
+      document.getElementById("sumSeats").textContent = seats;
+      document.getElementById("sumAmount").textContent = "₹" + amt;
+
+      const container = document.getElementById("membersContainer");
+      if (filtered.length === 0) {
+        container.innerHTML = `<div class="text-center py-8 text-xs text-gray-500 bg-gray-50 rounded-xl border border-dashed">No registrations for this pickup point yet.</div>`;
+        return;
+      }
+
+      container.innerHTML = filtered.map((b, idx) => `
+        <div class="rounded-xl border border-gray-200 p-3 bg-gray-50/70 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="px-2 py-0.5 rounded bg-[#043927] text-white text-[10px] font-extrabold">#${idx + 1} • ${b.id}</span>
+              <span class="text-xs font-extrabold text-amber-800">${b.pointName}</span>
+            </div>
+            <p class="text-sm font-extrabold text-gray-900 mt-1">${b.name} <span class="font-normal text-gray-600">(${b.phone})</span></p>
+            <p class="text-xs text-gray-600">Seats: <strong>${b.seats}</strong> • Fare: <strong>₹${b.totalFare}</strong> • <span class="text-emerald-700 font-bold">${b.status}</span></p>
+          </div>
+          <div class="flex items-center gap-1.5 self-end sm:self-center">
+            <button type="button" onclick="togglePaidStatus('${b.id}')" class="px-2.5 py-1.5 rounded-lg bg-emerald-100 text-[#043927] text-[11px] font-extrabold">
+              ✓ Toggle Paid
+            </button>
+            <button type="button" onclick="deleteBooking('${b.id}')" class="px-2.5 py-1.5 rounded-lg bg-red-100 text-red-700 text-[11px] font-extrabold">
+              ✕
+            </button>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    async function togglePaidStatus(id) {
+      const b = bookings.find(x => x.id === id);
+      if (!b) return;
+      b.status = b.status.includes("Verified")
+        ? "Pending (Will Pay Zimmedar)"
+        : "Paid & Verified by Zimmedar";
+      saveAll();
+      renderMembersList();
+      if (b._sid) {
+        try {
+          await sbFetch("/rest/v1/bookings?id=eq." + encodeURIComponent(b._sid), {
+            method: "PATCH", headers: staffHeaders(), body: JSON.stringify({ status: b.status })
+          });
+        } catch (e) { alert("Status changed locally, but cloud update failed: " + e.message); }
+      }
+    }
+
+    async function deleteBooking(id) {
+      if (!confirm("Delete this booking entry?")) return;
+      const b = bookings.find(x => x.id === id);
+      bookings = bookings.filter(x => x.id !== id);
+      saveAll();
+      populatePointDropdowns();
+      updateTotalBadge();
+      renderMembersList();
+      if (b && b._sid) {
+        try {
+          await sbFetch("/rest/v1/bookings?id=eq." + encodeURIComponent(b._sid), { method: "DELETE", headers: staffHeaders() });
+        } catch (e) { alert("Booking removed locally, but cloud delete failed: " + e.message); }
+      }
+    }
+
+    function exportCSV() {
+      if (bookings.length === 0) {
+        alert("No data to export.");
+        return;
+      }
+      const headers = ["Pass ID", "Pickup Point", "Departure", "Passenger Name", "Mobile", "Seats", "Total Fare", "Payment Status", "Note", "Created At"];
+      const rows = bookings.map(b => [
+        b.id, b.pointName, b.departure, b.name, b.phone, b.seats, b.totalFare, b.status, b.note || "", b.createdAt
+      ].map(v => `"${String(v).replace(/"/g, '""')}"`).join(","));
+
+      const csv = [headers.join(","), ...rows].join("\n");
+      const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "Warangal_Ijtima_Bus_Registrations.csv";
+      a.click();
+    }
+
+    // =========================================================
+    // TWO-TIER ADMIN (SUPER ADMIN 7860 + POINT ZIMMEDAR PINS)
+    // =========================================================
+    function handleAdminLogin() {
+      const pin = document.getElementById("adminPinInput").value.trim();
+      if (pin === "7860") {
+        adminAuth = { role: "super" };
+        openAdminUI();
+        return;
+      }
+      const matchedPoint = points.find(p => p.pin === pin);
+      if (matchedPoint) {
+        adminAuth = { role: "point", pointId: matchedPoint.id };
+        openAdminUI();
+        return;
+      }
+      alert("Invalid PIN! Use 7860 for Super Admin or your assigned Point Zimmedar PIN.");
+    }
+
+    function logoutAdmin() {
+      adminAuth = null;
+      document.getElementById("adminPinInput").value = "";
+      document.getElementById("adminLoginBox").classList.remove("hidden");
+      document.getElementById("adminDashboard").classList.add("hidden");
+    }
+
+    function openAdminUI() {
+      document.getElementById("adminLoginBox").classList.add("hidden");
+      document.getElementById("adminDashboard").classList.remove("hidden");
+
+      const isSuper = adminAuth.role === "super";
+      document.getElementById("superPortalEditor").classList.toggle("hidden", !isSuper);
+      document.getElementById("addPointBtn").classList.toggle("hidden", !isSuper);
+
+      if (isSuper) {
+        document.getElementById("adminRoleBadge").textContent = "SUPER ADMIN ACCESS";
+        document.getElementById("adminRoleTitle").textContent = "Edit Portal Details, All Points & Zimmedars";
+        document.getElementById("editTitle").value = settings.title;
+        document.getElementById("editDate").value = settings.date;
+        document.getElementById("editVenue").value = settings.venue;
+        document.getElementById("editReturn").value = settings.returnTime;
+        document.getElementById("editFare").value = settings.fare;
+        document.getElementById("editHelpline").value = settings.helpline;
+      } else {
+        const pt = points.find(p => p.id === adminAuth.pointId);
+        document.getElementById("adminRoleBadge").textContent = "POINT ZIMMEDAR ACCESS";
+        document.getElementById("adminRoleTitle").textContent = `Managing: ${pt ? pt.name : ""}`;
+      }
+
+      renderAdminPoints();
+    }
+
+    function savePortalSettings() {
+      settings.title = document.getElementById("editTitle").value.trim() || settings.title;
+      settings.date = document.getElementById("editDate").value.trim() || settings.date;
+      settings.venue = document.getElementById("editVenue").value.trim() || settings.venue;
+      settings.returnTime = document.getElementById("editReturn").value.trim() || settings.returnTime;
+      settings.fare = Number(document.getElementById("editFare").value) || 500;
+      settings.helpline = document.getElementById("editHelpline").value.trim() || settings.helpline;
+      saveAll();
+      applySettingsToUI();
+      alert("Portal details updated successfully!");
+      pushSettings();
+    }
+
+    function uploadPosterImage(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        settings.posterDataUrl = reader.result;
+        saveAll();
+        applySettingsToUI();
+        pushSettings(true);
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function clearPosterImage() {
+      settings.posterDataUrl = "";
+      saveAll();
+      applySettingsToUI();
+      pushSettings(true);
+    }
+
+    function renderAdminPoints() {
+      const list = adminAuth.role === "super"
+        ? points
+        : points.filter(p => p.id === adminAuth.pointId);
+
+      const container = document.getElementById("adminPointsList");
+      container.innerHTML = list.map(p => `
+        <div class="rounded-xl border-2 border-emerald-200 bg-emerald-50/30 p-3.5 space-y-2.5 text-xs">
+          <div class="flex items-center justify-between">
+            <strong class="text-sm text-[#043927]">${p.name}</strong>
+            <span class="px-2 py-0.5 rounded bg-amber-100 text-amber-900 font-extrabold">Point PIN: ${p.pin}</span>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <div>
+              <label class="font-bold text-gray-600 block">Point Name</label>
+              <input type="text" value="${p.name}" onchange="updatePointField('${p.id}', 'name', this.value)" class="w-full rounded-lg border p-2 font-semibold bg-white" />
+            </div>
+            <div>
+              <label class="font-bold text-gray-600 block">Departure Timing</label>
+              <input type="text" value="${p.departure}" onchange="updatePointField('${p.id}', 'departure', this.value)" class="w-full rounded-lg border p-2 font-semibold bg-white" />
+            </div>
+            <div>
+              <label class="font-bold text-gray-600 block">Zimmedar Name</label>
+              <input type="text" value="${p.zimmedarName}" onchange="updatePointField('${p.id}', 'zimmedarName', this.value)" class="w-full rounded-lg border p-2 font-semibold bg-white" />
+            </div>
+            <div>
+              <label class="font-bold text-gray-600 block">Zimmedar WhatsApp Number</label>
+              <input type="text" value="${p.zimmedarPhone}" onchange="updatePointField('${p.id}', 'zimmedarPhone', this.value)" class="w-full rounded-lg border p-2 font-semibold bg-white" />
+            </div>
+            <div>
+              <label class="font-bold text-gray-600 block">Point UPI ID</label>
+              <input type="text" value="${p.upiId || ""}" placeholder="zimmedar@upi" onchange="updatePointField('${p.id}', 'upiId', this.value)" class="w-full rounded-lg border p-2 font-semibold bg-white" />
+            </div>
+            <div>
+              <label class="font-bold text-gray-600 block">Point Admin PIN</label>
+              <input type="text" value="${p.pin}" onchange="updatePointField('${p.id}', 'pin', this.value)" class="w-full rounded-lg border p-2 font-semibold bg-white" />
+            </div>
+          </div>
+
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pt-1 border-t">
+            <div>
+              <label class="font-bold text-gray-700 block mb-1">Upload Point Payment QR Code:</label>
+              <input type="file" accept="image/*" onchange="uploadPointQR(event, '${p.id}')" class="text-xs" />
+            </div>
+            ${p.qrDataUrl ? `<img src="${p.qrDataUrl}" class="w-14 h-14 object-contain border rounded bg-white" />` : ""}
+          </div>
+
+          <button type="button" onclick="sendZimmedarAccessWA('${p.id}')" class="w-full py-2 rounded-lg bg-[#25D366] text-white font-extrabold text-xs shadow">
+            📲 Send Zimmedar Direct Link & PIN (WhatsApp)
+          </button>
+        </div>
+      `).join("");
+    }
+
+    function updatePointField(id, field, value) {
+      const idx = points.findIndex(p => p.id === id);
+      if (idx === -1) return;
+      points[idx][field] = value.trim();
+      saveAll();
+      populatePointDropdowns();
+      onPointChange();
+      pushPoint(points[idx]);
+    }
+
+    function uploadPointQR(e, id) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        updatePointField(id, "qrDataUrl", reader.result);
+        renderAdminPoints();
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function addNewPickupPoint() {
+      const name = prompt("Enter New Pickup Point Name:");
+      if (!name) return;
+      const id = name.toLowerCase().replace(/[^a-z0-9]/g, "") + Math.floor(10 + Math.random() * 89);
+      points.push({
+        id,
+        name: name.trim(),
+        departure: "After Fajr Prayer",
+        zimmedarName: name.trim() + " Zimmedar",
+        zimmedarPhone: "9353490973",
+        upiId: "",
+        qrDataUrl: "",
+        pin: String(Math.floor(1000 + Math.random() * 8999))
+      });
+      saveAll();
+      pushPoint(points[points.length - 1]);
+      populatePointDropdowns();
+      renderAdminPoints();
+    }
+
+    function sendZimmedarAccessWA(pointId) {
+      const p = points.find(x => x.id === pointId);
+      if (!p) return;
+      const baseUrl = window.location.href.split("?")[0];
+      const regLink = `${baseUrl}?point=${p.id}`;
+      const adminLink = `${baseUrl}?point=${p.id}&mode=admin`;
+
+      const msg =
+        `*Assalamu Alaikum ${p.zimmedarName},*\n` +
+        `Aapke Pickup Point (*${p.name}*) ke links aur PIN details:\n\n` +
+        `1️⃣ *Members Registration Link (Group mein share karein):*\n${regLink}\n\n` +
+        `2️⃣ *Aapka Point Admin Link (QR, Timing & List manage karne ke liye):*\n${adminLink}\n` +
+        `🔑 *Aapka Point PIN:* ${p.pin}`;
+      openWhatsApp(p.zimmedarPhone, msg);
+    }
+
+    // =========================================================
+    // BILINGUAL TOGGLE (ENGLISH / HINGLISH)
+    // =========================================================
+    function toggleLang() {
+      lang = lang === "en" ? "hi" : "en";
+      const isHi = lang === "hi";
+      document.getElementById("formHeading").textContent = isHi ? "Bus Seat Register Karein" : "Book Your Bus Seat";
+      document.getElementById("formSub").textContent = isHi
+        ? "Apna pickup point chunein aur Zimmedar / QR code dekhein"
+        : "Select your pickup point to view Zimmedar & Payment QR";
+      document.getElementById("lblPoint").textContent = isHi ? "1. Apna Pickup Point Chunein *" : "1. Select Pickup Point *";
+      document.getElementById("lblName").textContent = isHi ? "2. Musafir Ka Poora Naam *" : "2. Passenger Full Name *";
+      document.getElementById("lblPhone").textContent = isHi ? "3. WhatsApp / Mobile Number *" : "3. WhatsApp / Mobile Number *";
+      document.getElementById("lblSeats").textContent = isHi ? "4. Kitni Seats Chahiye *" : "4. Number of Seats *";
+      document.getElementById("lblPayStatus").textContent = isHi ? "5. Payment Status *" : "5. Payment Status *";
+      document.getElementById("submitBtn").textContent = isHi ? "✅ Seat Confirm Karein aur Pass Banayein" : "✅ Confirm Seat & Generate Pass";
+    }
+  </script>
+</body>
+</html>
