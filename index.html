@@ -518,6 +518,7 @@
     async function sbFetch(path, opts = {}) {
       const res = await fetch(SUPABASE_URL + path, {
         method: opts.method || "GET",
+        body: opts.body,
         headers: Object.assign({
           "apikey": SUPABASE_ANON_KEY,
           "Authorization": "Bearer " + SUPABASE_ANON_KEY,
