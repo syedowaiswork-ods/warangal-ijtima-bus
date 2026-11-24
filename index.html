@@ -227,10 +227,14 @@
       <div id="passSection" class="hidden bg-white rounded-2xl shadow-xl border-2 border-[#043927] overflow-hidden">
         <div class="emerald-grad px-4 py-3 text-white flex items-center justify-between">
           <div>
-            <span class="text-[10px] uppercase tracking-widest text-[#f3d778] font-bold block">Confirmed Bus Pass</span>
+            <span class="text-[10px] uppercase tracking-widest text-[#f3d778] font-bold block">Temporary Bus Pass (Jama)</span>
             <h3 id="passIdDisp" class="text-lg font-extrabold tracking-wide">DI-WGL-1001</h3>
           </div>
-          <span class="px-2.5 py-1 rounded-full bg-[#f3d778] text-[#032b1d] text-xs font-extrabold">VERIFIED</span>
+          <span class="px-2.5 py-1 rounded-full bg-[#f3d778] text-[#032b1d] text-xs font-extrabold">TEMPORARY</span>
+        </div>
+        <div class="px-4 py-2 bg-amber-100 border-b border-amber-300 text-amber-900 text-[11px] font-bold flex items-center gap-2">
+          <span>⚠</span>
+          <span>Yeh <strong>TEMPORARY pass</strong> hai — jama ke din point zimmedar se verify karein. Final boarding zimmedar ke hisaab se hogi.</span>
         </div>
         <div class="p-4 space-y-3 text-sm">
           <div class="grid grid-cols-2 gap-2 bg-gray-50 p-3 rounded-xl border">
@@ -261,8 +265,11 @@
           </div>
 
           <div class="space-y-2 pt-1">
-            <button type="button" onclick="sendPassToZimmedarWA()" class="w-full py-3 rounded-xl bg-[#25D366] hover:bg-[#1ebe5d] text-white font-extrabold text-sm shadow flex items-center justify-center gap-2">
-              <span>📲 Send Pass to Point Zimmedar (WhatsApp)</span>
+            <button type="button" onclick="sendPassWithPhotoWA()" class="w-full py-3 rounded-xl bg-[#25D366] hover:bg-[#1ebe5d] text-white font-extrabold text-sm shadow flex items-center justify-center gap-2">
+              <span>📲 Send Pass + Photo to Point Zimmedar (WhatsApp)</span>
+            </button>
+            <button type="button" onclick="downloadPassPng()" class="w-full py-2.5 rounded-xl bg-white border-2 border-[#043927] text-[#043927] font-extrabold text-xs shadow hover:bg-emerald-50">
+              📸 Download Pass Photo (PNG)
             </button>
             <button type="button" onclick="shareCurrentPointListWA()" class="w-full py-2.5 rounded-xl bg-[#043927] hover:bg-[#064e36] text-[#f3d778] font-bold text-xs shadow">
               📋 Share Updated Point Members List on WhatsApp
@@ -835,12 +842,10 @@
       openWhatsApp("", msg);
     }
 
-    function sendPassToZimmedarWA() {
-      if (!activePass) return;
-      const b = activePass;
-      const msg =
+    function passWhatsAppText(b) {
+      return (
         `*Assalamu Alaikum ${b.zimmedarName},*\n` +
-        `Meri Warangal Ijtima Bus Seat registration details:\n\n` +
+        `Warangal Ijtima Bus — Seat Registration Details:\n\n` +
         `🎫 *Pass ID:* ${b.id}\n` +
         `📍 *Pickup Point:* ${b.pointName}\n` +
         `⏰ *Departure:* ${b.departure}\n` +
@@ -848,9 +853,126 @@
         `📞 *Mobile:* ${b.phone}\n` +
         `💺 *Seats:* ${b.seats} (Total: ₹${b.totalFare}/-)\n` +
         `💳 *Payment:* ${b.status}` +
-        (b.note ? `\n📝 *Note:* ${b.note}` : "");
+        (b.note ? `\n📝 *Note:* ${b.note}` : "") +
+        `\n\n⚠ *TEMPORARY PASS* — jama ke din zimmedar se verify karein.\n` +
+        `📎 Pass ki photo iske saath attached hai.`
+      );
+    }
+
+    // ---------- PASS PHOTO (PNG) — 100% self-contained canvas render ----------
+    function drawPassCanvas(b) {
+      const S = 2; // sharpness scale
+      const W = 760, H = 1080;
+      const c = document.createElement("canvas");
+      c.width = W * S; c.height = H * S;
+      const x = c.getContext("2d");
+      x.scale(S, S);
+      x.imageSmoothingEnabled = true;
+      const F = (px, w) => `${w || 400} ${px}px "Segoe UI", Arial, sans-serif`;
+      // background
+      x.fillStyle = "#ffffff"; x.fillRect(0, 0, W, H);
+      // header band
+      x.fillStyle = "#043927"; x.fillRect(0, 0, W, 170);
+      x.fillStyle = "#f3d778"; x.font = F(15, 700); x.textAlign = "center";
+      x.fillText((settings.title || "WARANGAL IJTIMA BUS").toUpperCase(), W / 2, 48);
+      x.fillStyle = "#ffffff"; x.font = F(30, 800);
+      x.fillText("DIGITAL BUS PASS (TEMPORARY)", W / 2, 95);
+      x.fillStyle = "#cfe8d9"; x.font = F(14, 600);
+      x.fillText(`${settings.date || ""}   •   ${settings.venue || ""}`, W / 2, 132);
+      x.fillText(`Return: ${settings.returnTime || ""}`, W / 2, 155);
+      // pass id chip
+      x.fillStyle = "#f3d778";
+      const chipW = 420, chipH = 84, cx0 = (W - chipW) / 2, cy0 = 205;
+      x.beginPath();
+      if (x.roundRect) x.roundRect(cx0, cy0, chipW, chipH, 14); else x.rect(cx0, cy0, chipW, chipH);
+      x.fill();
+      x.fillStyle = "#032b1d"; x.font = F(36, 800);
+      x.fillText(b.id, W / 2, cy0 + 55);
+      // detail rows
+      const rows = [
+        ["PASSENGER NAME", b.name],
+        ["MOBILE NUMBER", b.phone],
+        ["PICKUP POINT", b.pointName],
+        ["DEPARTURE", b.departure],
+        ["SEATS", String(b.seats)],
+        ["TOTAL FARE", `₹${b.totalFare}/-`],
+        ["PAYMENT STATUS", b.status]
+      ];
+      let y = 340;
+      x.textAlign = "left";
+      rows.forEach(([label, val]) => {
+        x.strokeStyle = "#e5e7eb"; x.beginPath(); x.moveTo(50, y - 26); x.lineTo(W - 50, y - 26); x.stroke();
+        x.fillStyle = "#6b7280"; x.font = F(14, 700);
+        x.fillText(label, 50, y);
+        x.fillStyle = "#111827"; x.font = F(19, 800); x.textAlign = "right";
+        x.fillText(String(val), W - 50, y);
+        x.textAlign = "left";
+        y += 52;
+      });
+      if (b.note) {
+        x.fillStyle = "#6b7280"; x.font = F(13, 700); x.fillText("NOTE", 50, y);
+        x.fillStyle = "#111827"; x.font = F(15, 600); x.textAlign = "right";
+        x.fillText(String(b.note), W - 50, y); x.textAlign = "left";
+        y += 52;
+      }
+      // temporary warning strip
+      const ty = H - 170;
+      x.fillStyle = "#fef3c7"; x.fillRect(0, ty, W, 84);
+      x.fillStyle = "#b45309"; x.font = F(17, 800); x.textAlign = "center";
+      x.fillText("⚠  TEMPORARY PASS — JAMA KE DIN ZIMMEDAR SE VERIFY KAREIN", W / 2, ty + 34);
+      x.fillStyle = "#92400e"; x.font = F(13, 600);
+      x.fillText(`Registered: ${b.createdAt || ""}`, W / 2, ty + 62);
+      // footer
+      x.fillStyle = "#043927"; x.font = F(13, 700); x.textAlign = "center";
+      x.fillText("Dawat-e-Islami India — Special Bus Service", W / 2, H - 52);
+      x.fillStyle = "#6b7280"; x.font = F(12, 500);
+      x.fillText(window.location.href.split("?")[0], W / 2, H - 26);
+      return c;
+    }
+
+    function generatePassPngFile(b) {
+      return new Promise((resolve, reject) => {
+        drawPassCanvas(b).toBlob(blob => (blob ? resolve(new File([blob], `${b.id}-pass.png`, { type: "image/png" })) : reject(new Error("PNG generate nahi ho paayi"))), "image/png");
+      });
+    }
+
+    async function downloadPassPng() {
+      if (!activePass) { alert("Pehle pass generate karein (form submit karein ya View Saved Pass dabayein)."); return; }
+      try {
+        const file = await generatePassPngFile(activePass);
+        const url = URL.createObjectURL(file);
+        const a = document.createElement("a");
+        a.href = url; a.download = `${activePass.id}-pass.png`;
+        document.body.appendChild(a); a.click(); a.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 4000);
+      } catch (err) {
+        alert("Pass photo download nahi ho paayi: " + err.message);
+      }
+    }
+
+    // Send pass details + pass photo to point zimmedar on WhatsApp.
+    // Mobile: Web Share sheet (photo actually attaches). Desktop/unsupported:
+    // photo downloads + WhatsApp chat opens with full text (attach photo manually).
+    async function sendPassWithPhotoWA() {
+      if (!activePass) return;
+      const b = activePass;
+      const msg = passWhatsAppText(b);
+      try {
+        const file = await generatePassPngFile(b);
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+          await navigator.share({ files: [file], text: msg, title: `Bus Pass ${b.id}` });
+          return;
+        }
+      } catch (e) {
+        if (e && e.name === "AbortError") return; // user cancelled share sheet
+      }
+      // fallback: download photo + open WhatsApp with text
+      try { await downloadPassPng(); } catch (e) { /* continue */ }
+      alert("Pass photo download ho gayi hai. WhatsApp chat khul raha hai — usme yeh photo attach karke bhejein.");
       openWhatsApp(b.zimmedarPhone, msg);
     }
+
+    function sendPassToZimmedarWA() { sendPassWithPhotoWA(); }
 
     function shareCurrentPointListWA() {
       if (!activePass) return;
